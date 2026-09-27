@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebGL Sierpinski Carpet 학습 예제</title>
+  <style>
+    body { margin: 0; padding: 24px; font-family: system-ui, sans-serif; color: #172033; background: #f5f7fb; }
+    main { max-width: 720px; margin: auto; }
+    h1 { font-size: 1.5rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; margin: 24px 0; }
+    label { display: grid; gap: 8px; }
+    input[type="range"] { width: min(260px, 65vw); }
+    input[type="color"] { width: 64px; height: 40px; }
+    canvas { display: block; width: 100%; height: auto; background: white; border: 1px solid #d3dbe8; box-sizing: border-box; }
+    #status { line-height: 1.7; }
+  </style>
+
+
+  <script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec2 vPosition;
+    void main() {
+      gl_Position = vec4(vPosition, 0.0, 1.0);
+    }
+  </script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+    uniform vec4 uColor;
+    void main() {
+      gl_FragColor = uColor;
+    }
+  </script>
+  <script src="carpet.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>WebGL Sierpinski Carpet</h1>
+    <p>정사각형을 3 × 3으로 나누고, 가운데를 제외한 8칸에 같은 규칙을 반복.</p>
+    <div class="controls">
+      <label for="depth">분할 횟수: <output id="depth-value">0</output>
+        <input id="depth" type="range" min="0" max="4" step="1" value="0">
+      </label>
+      <label for="color">도형 색상
+        <input id="color" type="color" value="#1f5fe0">
+      </label>
+    </div>
+    <canvas id="gl-canvas" width="640" height="640" role="img" aria-label="분할 횟수와 선택한 색상에 따른 Sierpinski Carpet"></canvas>
+    <p id="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
